@@ -48,10 +48,10 @@ const Home = () => {
                 <Text className="text-2xl font-psemibold text-white">{user_metadata.username}</Text>
               </View>
               <View className="mt-1.5">
-                <Image source={images.logoSmall} className="w-9 h-10" resizeMode="contain"/>
+                <Image source={images.logo} className="w-9 h-10" resizeMode="contain"/>
               </View> 
             </View>
-            <SearchInput></SearchInput>
+            <SearchInput  ></SearchInput>
             <View className="w-full flex-1 pt-5 pb-8">
               <Text className="text-gray-100 text-lg font-pregular">Trending Videos</Text>
               <Trending posts={latestPosts}></Trending>

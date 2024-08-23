@@ -20,11 +20,11 @@ export default function Index() {
           <View className="relative mt-5">
             <Text className="text-white text-3xl font-bold text-center">
               Discover Endless Possibilities with{' '}
-              <Text className="text-secondary-200">Aora!</Text>
+              <Text className="text-secondary-200">Moments!</Text>
             </Text>
             <Image source={images.path} className="w-[136px] h-[15px] absolute -bottom-2 -right-8" resizeMode="contain"/>   
           </View>  
-          <Text className="text-sm font-pregular text-gray-100 mt-5 text-center">Where creativity meets innovation: embark on a journey of limitless exploration with Aora</Text>
+          <Text className="text-sm font-pregular text-gray-100 mt-5 text-center">Where creativity meets innovation: embark on a journey of limitless exploration with Moments</Text>
           <CustomButton 
           title="Continue with Email" 
           handlePress={()=>router.push('/sign-in')}

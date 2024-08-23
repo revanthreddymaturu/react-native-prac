@@ -65,7 +65,7 @@ const SignUp = () => {
         <ScrollView>
             <View className="w-full justify-center min-h-[80vh] my-2 px-4">
                 <Image source={images.logo} resizeMode='contain' className="w-[115px] h-[35px]"/>
-                <Text className="text-white text-2xl text-semibold mt-10 font-psemibold">Log in to Aora</Text>
+                <Text className="text-white text-2xl text-semibold mt-10 font-psemibold">Sign up to Moments</Text>
                 <FormField
                 title="Username"
                 value={form.username}
