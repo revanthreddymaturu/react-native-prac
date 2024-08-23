@@ -1,0 +1,74 @@
+import { View, Text,FlatList,Image,RefreshControl } from 'react-native'
+import React, { useEffect } from 'react'
+import { SafeAreaView } from 'react-native-safe-area-context'
+import {useSessionContext} from '../../utils/SessionProvider'
+import images from '../../constants/images'
+import SearchInput from '../../components/SearchInput'
+import Trending from '../../components/Trending'
+import EmptyState from '../../components/EmptyState'
+import { useState } from 'react'
+import { getPosts,getLatestPosts } from '../../lib/supabase'
+import useSupabase from '../../lib/useSupabase'
+import VideoCard from '../../components/VideoCard'
+import { Redirect } from 'expo-router'
+
+const Home = () => {
+  const {data,reFetch}= useSupabase(getPosts);
+  const {data:latestPosts,reFetch:reFetchLatest}= useSupabase(getLatestPosts);
+  const { session } = useSessionContext();
+  
+  const user_metadata = session?.user?.user_metadata ? session.user.user_metadata : null;
+
+  
+  const [refreshing, setRefreshing] = useState(false);
+  const onRefresh =  async () => {
+    setRefreshing(true);
+    await reFetch();
+    await reFetchLatest();
+    setRefreshing(false);
+  };
+  
+  
+  if(session==null){
+    return <Redirect href="/sign-in" />;
+  }
+  return (
+    <SafeAreaView className="bg-primary h-full">
+      <FlatList
+        data={data}
+        keyExtractor={item => item.id}
+        renderItem={({item}) => (
+          <VideoCard videoItem={item}></VideoCard>
+        )}
+        ListHeaderComponent={()=>(
+          <View className="my-6 px-4 space-y-6">
+            <View className="justify-between items-start flex-row mb-6">
+              <View >
+                <Text className="font-pmedium text-sm text-gray-100">Welcome Back</Text>
+                <Text className="text-2xl font-psemibold text-white">{user_metadata.username}</Text>
+              </View>
+              <View className="mt-1.5">
+                <Image source={images.logoSmall} className="w-9 h-10" resizeMode="contain"/>
+              </View> 
+            </View>
+            <SearchInput></SearchInput>
+            <View className="w-full flex-1 pt-5 pb-8">
+              <Text className="text-gray-100 text-lg font-pregular">Trending Videos</Text>
+              <Trending posts={latestPosts}></Trending>
+            </View>
+          </View>
+        )}
+
+        ListEmptyComponent={()=>(
+          <EmptyState title="No videos found" subtitle="Be the first one to upload a video"></EmptyState>
+  )}
+  
+        refreshControl={<RefreshControl refreshing={refreshing} onRefresh={onRefresh} />}
+      >
+
+      </FlatList>
+    </SafeAreaView>
+  )
+}
+
+export default Home
